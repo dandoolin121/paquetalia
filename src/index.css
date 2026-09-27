@@ -49,3 +49,16 @@ body {
   text-align: center;
   color: var(--text-muted);
 }
+
+.dev-tools {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  padding: 8px;
+  border: 1px dashed var(--text-muted);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
