@@ -5,18 +5,19 @@ interface Props {
   parcel: Parcel
   dateLabel?: string
   overdue?: boolean
+  onClick: () => void
 }
 
-export function ParcelCard({ parcel, dateLabel, overdue = false }: Props) {
+export function ParcelCard({ parcel, dateLabel, overdue = false, onClick }: Props) {
   const meta = [parcel.source, carrierFromUrl(parcel.trackingUrl)].filter(Boolean).join(' · ')
 
   return (
-    <div className="card">
-      <div className="card-row">
+    <button type="button" className="card" onClick={onClick}>
+      <span className="card-row">
         <span className="card-title">{parcel.contents}</span>
         {dateLabel && <span className={overdue ? 'card-date overdue' : 'card-date'}>{dateLabel}</span>}
-      </div>
-      {meta && <div className="card-meta">{meta}</div>}
-    </div>
+      </span>
+      {meta && <span className="card-meta">{meta}</span>}
+    </button>
   )
 }

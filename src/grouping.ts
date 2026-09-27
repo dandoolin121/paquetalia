@@ -30,6 +30,10 @@ function groupOf(parcel: Parcel, today: Date): GroupKey {
   return 'later'
 }
 
+export function isOverdue(parcel: Parcel, today: Date): boolean {
+  return parcel.status === 'in_transit' && groupOf(parcel, today) === 'overdue'
+}
+
 function byExpectedDate(a: Parcel, b: Parcel): number {
   return (a.expectedFrom ?? '').localeCompare(b.expectedFrom ?? '') || a.createdAt.localeCompare(b.createdAt)
 }

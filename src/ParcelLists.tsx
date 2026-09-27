@@ -6,9 +6,10 @@ import { ParcelCard } from './ParcelCard'
 interface Props {
   parcels: Parcel[]
   today: Date
+  onOpen: (id: string) => void
 }
 
-export function InTransitList({ parcels, today }: Props) {
+export function InTransitList({ parcels, today, onOpen }: Props) {
   const groups = groupInTransit(parcels, today)
   if (groups.length === 0) return <p className="empty-state">Tu pojawią się Twoje paczki 📦</p>
 
@@ -23,6 +24,7 @@ export function InTransitList({ parcels, today }: Props) {
             parcel={p}
             dateLabel={formatExpected(p.expectedFrom, p.expectedTo, today)}
             overdue={overdue}
+            onClick={() => onOpen(p.id)}
           />
         ))}
       </section>
@@ -30,7 +32,7 @@ export function InTransitList({ parcels, today }: Props) {
   })
 }
 
-export function DeliveredList({ parcels, today }: Props) {
+export function DeliveredList({ parcels, today, onOpen }: Props) {
   const delivered = sortDelivered(parcels)
   if (delivered.length === 0) return <p className="empty-state">Nie ma jeszcze odebranych paczek</p>
 
@@ -41,6 +43,7 @@ export function DeliveredList({ parcels, today }: Props) {
           key={p.id}
           parcel={p}
           dateLabel={p.deliveredAt && `odebrana ${formatDay(toIsoDate(new Date(p.deliveredAt)), today)}`}
+          onClick={() => onOpen(p.id)}
         />
       ))}
     </section>
