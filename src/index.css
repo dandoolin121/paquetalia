@@ -1,3 +1,9 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --bg: #f2f2f7;
   --card: #ffffff;
@@ -7,6 +13,7 @@
   --danger: #ff3b30;
   --segment-bg: rgba(118, 118, 128, 0.12);
   --segment-active: #ffffff;
+  --separator: rgba(60, 60, 67, 0.29);
 
   font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: 17px;
@@ -28,6 +35,7 @@
     --danger: #ff453a;
     --segment-bg: rgba(118, 118, 128, 0.24);
     --segment-active: #636366;
+    --separator: rgba(84, 84, 88, 0.65);
   }
 }
 
@@ -40,7 +48,7 @@ body {
   max-width: 600px;
   margin: 0 auto;
   padding: calc(env(safe-area-inset-top) + 16px) 16px
-    calc(env(safe-area-inset-bottom) + 16px);
+    calc(env(safe-area-inset-bottom) + 96px);
 }
 
 .app-header h1 {
@@ -125,7 +133,7 @@ body {
   color: var(--danger);
 }
 
-.empty {
+.empty-state {
   margin-top: 30vh;
   text-align: center;
   color: var(--text-muted);
@@ -142,4 +150,195 @@ body {
   border-radius: 12px;
   font-size: 13px;
   color: var(--text-muted);
+}
+
+/* Okrągły przycisk „+” w prawym dolnym rogu, na szerokim ekranie przy prawej krawędzi kolumny z listą */
+.fab {
+  position: fixed;
+  right: max(20px, calc((100vw - 600px) / 2 + 20px));
+  bottom: calc(env(safe-area-inset-bottom) + 20px);
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s;
+}
+
+.fab:active {
+  transform: scale(0.92);
+}
+
+/* Ekran wysuwany od dołu, przykrywa listę */
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow-y: auto;
+  background: var(--bg);
+  animation: sheet-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: calc(env(safe-area-inset-top) + 12px) 16px 12px;
+  background: var(--bg);
+}
+
+.nav-title {
+  font-weight: 600;
+}
+
+.nav-button {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+}
+
+.nav-button:last-child {
+  justify-self: end;
+}
+
+.nav-button.strong {
+  font-weight: 600;
+}
+
+.nav-button:disabled {
+  color: var(--text-muted);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 8px 16px calc(env(safe-area-inset-bottom) + 24px);
+}
+
+.form-group {
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--card);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 16px;
+}
+
+.field + .field {
+  border-top: 0.5px solid var(--separator);
+}
+
+.field-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.field input:not([type='date']),
+.field textarea {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  resize: none;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.date-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.field-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.date-pill {
+  position: relative;
+  display: inline-flex;
+}
+
+.date-pill:has(input:disabled) {
+  opacity: 0.4;
+}
+
+.date-pill input {
+  min-width: 120px;
+  min-height: 34px;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--segment-bg);
+  color: var(--text);
+  font: inherit;
+}
+
+.date-pill input.empty:not(:focus) {
+  color: transparent;
+}
+
+.date-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.date-pill input:focus + .date-placeholder {
+  display: none;
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 15px;
+}
+
+.field-error {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--danger);
 }

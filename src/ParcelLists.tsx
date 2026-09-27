@@ -10,7 +10,7 @@ interface Props {
 
 export function InTransitList({ parcels, today }: Props) {
   const groups = groupInTransit(parcels, today)
-  if (groups.length === 0) return <p className="empty">Tu pojawią się Twoje paczki 📦</p>
+  if (groups.length === 0) return <p className="empty-state">Tu pojawią się Twoje paczki 📦</p>
 
   return groups.map((group) => {
     const overdue = group.key === 'overdue'
@@ -32,7 +32,7 @@ export function InTransitList({ parcels, today }: Props) {
 
 export function DeliveredList({ parcels, today }: Props) {
   const delivered = sortDelivered(parcels)
-  if (delivered.length === 0) return <p className="empty">Nie ma jeszcze odebranych paczek</p>
+  if (delivered.length === 0) return <p className="empty-state">Nie ma jeszcze odebranych paczek</p>
 
   return (
     <section className="group">
