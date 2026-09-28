@@ -29,3 +29,13 @@ export function saveParcels(parcels: Parcel[]): void {
   const data: StoredData = { version: DATA_VERSION, parcels }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
+
+const WELCOMED_KEY = 'paquetalia.welcomed'
+
+export function loadWelcomed(): boolean {
+  return localStorage.getItem(WELCOMED_KEY) !== null
+}
+
+export function saveWelcomed(): void {
+  localStorage.setItem(WELCOMED_KEY, new Date().toISOString())
+}

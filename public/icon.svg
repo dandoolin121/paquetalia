@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F8DDE1" />
+      <stop offset="1" stop-color="#EBB6BF" />
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)" />
+  <!-- Całość powiększona i wyśrodkowana względem środka pudełka -->
+  <g transform="translate(512 512) scale(1.25) translate(-512 -550)">
+    <ellipse cx="512" cy="806" rx="215" ry="28" fill="#B85C70" opacity="0.2" />
+    <!-- Pudełko w rzucie izometrycznym: góra, lewa i prawa ściana -->
+    <path d="M512 300 752 420 512 540 272 420Z" fill="#FFFFFF" />
+    <path d="M272 420 512 540V800L272 680Z" fill="#FDF3F5" />
+    <path d="M512 540 752 420V680L512 800Z" fill="#F4D9DE" />
+    <!-- Taśma przez wierzch i w dół prawej ściany -->
+    <path d="M363 374 603 494 661 466 421 346Z" fill="#D98C9C" />
+    <path d="M603 494 661 466V576L603 604Z" fill="#C97486" />
+    <!-- Serduszko naklejone na lewej ścianie -->
+    <g transform="translate(392 610) skewY(26.565)">
+      <path d="M0 52C-62 12-84-30-54-58-32-78-8-66 0-46 8-66 32-78 54-58 84-30 62 12 0 52Z" fill="#B85C70" />
+    </g>
+  </g>
+</svg>

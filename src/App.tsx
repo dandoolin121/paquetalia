@@ -4,7 +4,9 @@ import type { ParcelDraft, ParcelStatus } from './parcel'
 import { ParcelDetails } from './ParcelDetails'
 import { ParcelForm } from './ParcelForm'
 import { DeliveredList, InTransitList } from './ParcelLists'
+import { loadWelcomed, saveWelcomed } from './storage'
 import { useParcels } from './useParcels'
+import { Welcome } from './Welcome'
 
 type Screen =
   | { name: 'list' }
@@ -17,6 +19,7 @@ function App() {
   const { parcels, addParcel, updateParcel, setStatus, removeParcel } = parcelsApi
   const [tab, setTab] = useState<ParcelStatus>('in_transit')
   const [screen, setScreen] = useState<Screen>({ name: 'list' })
+  const [welcomed, setWelcomed] = useState(loadWelcomed)
   const today = new Date()
   const inTransitCount = parcels.filter((p) => p.status === 'in_transit').length
   // Szczegóły zostają pod spodem także podczas edycji, żeby po zamknięciu formularza nie wjeżdżały od nowa
@@ -24,6 +27,11 @@ function App() {
     screen.name === 'details' || screen.name === 'edit'
       ? parcels.find((p) => p.id === screen.id)
       : undefined
+
+  function finishWelcome() {
+    saveWelcomed()
+    setWelcomed(true)
+  }
 
   function showList() {
     setScreen({ name: 'list' })
@@ -84,7 +92,7 @@ function App() {
         <DeliveredList parcels={parcels} today={today} onOpen={openDetails} />
       )}
 
-      {import.meta.env.DEV && <DevTools {...parcelsApi} />}
+      {import.meta.env.DEV && <DevTools {...parcelsApi} onShowWelcome={() => setWelcomed(false)} />}
 
       <button
         type="button"
@@ -120,6 +128,8 @@ function App() {
           onCancel={() => openDetails(opened.id)}
         />
       )}
+
+      {!welcomed && <Welcome onDone={finishWelcome} />}
     </main>
   )
 }
