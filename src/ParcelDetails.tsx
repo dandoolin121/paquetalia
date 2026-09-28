@@ -60,10 +60,10 @@ export function ParcelDetails({ parcel, today, onBack, onEdit, onSetStatus, onDe
               <dd>{parcel.carrier}</dd>
             </div>
           )}
-          {parcel.toLocker && (
+          {parcel.destination && (
             <div className="info-row">
-              <dt>Odbiór</dt>
-              <dd>Paczkomat</dd>
+              <dt>Dokąd</dt>
+              <dd>{parcel.destination}</dd>
             </div>
           )}
         </dl>

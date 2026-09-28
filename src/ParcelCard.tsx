@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function ParcelCard({ parcel, dateLabel, overdue = false, onClick }: Props) {
-  const meta = [parcel.source, parcel.carrier, parcel.toLocker && 'paczkomat']
+  const meta = [parcel.source, parcel.carrier, parcel.destination]
     .filter(Boolean)
     .join(' · ')
 

@@ -17,7 +17,7 @@ function sampleParcels(): (ParcelDraft & { delivered?: boolean })[] {
       expectedFrom: inDays(0),
       note: 'rozmiar 38',
       carrier: 'InPost',
-      toLocker: true,
+      destination: 'Paczkomat',
     },
     {
       contents: 'Krem do rąk i szampon',

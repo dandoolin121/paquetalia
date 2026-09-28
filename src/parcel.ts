@@ -13,8 +13,8 @@ export interface Parcel {
   note?: string
   /** Dostawca wybrany ręcznie – starsze paczki go nie mają, wtedy rozpoznajemy go z linku */
   carrier?: string
-  /** Odbiór w paczkomacie; brak pola = nie zaznaczono */
-  toLocker?: boolean
+  /** Dokąd przyjdzie, dowolny tekst: Żabka, paczkomat, dom… */
+  destination?: string
   status: ParcelStatus
   createdAt: string
   deliveredAt?: string
@@ -23,7 +23,7 @@ export interface Parcel {
 /** Pola wypełniane w formularzu */
 export type ParcelDraft = Pick<
   Parcel,
-  'contents' | 'source' | 'trackingUrl' | 'expectedFrom' | 'expectedTo' | 'note' | 'carrier' | 'toLocker'
+  'contents' | 'source' | 'trackingUrl' | 'expectedFrom' | 'expectedTo' | 'note' | 'carrier' | 'destination'
 >
 
 export function newId(): string {

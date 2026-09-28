@@ -9,8 +9,7 @@ interface Props {
   onCancel: () => void
 }
 
-type TextField = Exclude<keyof ParcelDraft, 'toLocker'>
-type Fields = Record<TextField, string> & { toLocker: boolean }
+type Fields = Record<keyof ParcelDraft, string>
 
 function toFields(draft?: ParcelDraft): Fields {
   return {
@@ -21,7 +20,7 @@ function toFields(draft?: ParcelDraft): Fields {
     expectedTo: draft?.expectedTo ?? '',
     note: draft?.note ?? '',
     carrier: draft?.carrier ?? '',
-    toLocker: draft?.toLocker ?? false,
+    destination: draft?.destination ?? '',
   }
 }
 
@@ -44,8 +43,7 @@ function toDraft(fields: Fields): ParcelDraft {
     expectedTo: expectedFrom && expectedTo !== expectedFrom ? expectedTo : undefined,
     note: optional(fields.note),
     carrier: optional(fields.carrier),
-    // Odznaczony przełącznik zapisujemy jako brak pola, tak jak w paczkach sprzed tej wersji
-    toLocker: fields.toLocker || undefined,
+    destination: optional(fields.destination),
   }
 }
 
@@ -80,7 +78,7 @@ function DateInput({ label, placeholder, value, min, disabled, onChange }: DateI
 export function ParcelForm({ title, initial, onSave, onCancel }: Props) {
   const [fields, setFields] = useState(() => toFields(initial))
 
-  function update(name: TextField, value: string) {
+  function update(name: keyof Fields, value: string) {
     setFields((prev) => ({ ...prev, [name]: value }))
   }
 
@@ -148,14 +146,12 @@ export function ParcelForm({ title, initial, onSave, onCancel }: Props) {
               ))}
             </select>
           </label>
-          <label className="field field-switch">
-            <span>Do paczkomatu</span>
+          <label className="field">
+            <span className="field-label">Dokąd</span>
             <input
-              type="checkbox"
-              role="switch"
-              className="switch"
-              checked={fields.toLocker}
-              onChange={(e) => setFields((prev) => ({ ...prev, toLocker: e.target.checked }))}
+              value={fields.destination}
+              onChange={(e) => update('destination', e.target.value)}
+              placeholder="np. Żabka, paczkomat, dom"
             />
           </label>
         </div>
