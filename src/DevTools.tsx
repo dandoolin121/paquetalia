@@ -50,9 +50,10 @@ function sampleParcels(): (ParcelDraft & { delivered?: boolean })[] {
 
 type Props = ReturnType<typeof useParcels> & {
   onShowWelcome: () => void
+  onShowInstallGuide: () => void
 }
 
-export function DevTools({ parcels, addParcel, setStatus, removeParcel, onShowWelcome }: Props) {
+export function DevTools({ parcels, addParcel, setStatus, removeParcel, onShowWelcome, onShowInstallGuide }: Props) {
   function seed() {
     for (const { delivered, ...draft } of sampleParcels()) {
       const id = addParcel(draft)
@@ -75,6 +76,9 @@ export function DevTools({ parcels, addParcel, setStatus, removeParcel, onShowWe
       </button>
       <button type="button" onClick={onShowWelcome}>
         Powitanie
+      </button>
+      <button type="button" onClick={onShowInstallGuide}>
+        Instalacja
       </button>
     </div>
   )

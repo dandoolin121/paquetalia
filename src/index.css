@@ -590,3 +590,90 @@ body {
     animation: none;
   }
 }
+
+/* Instrukcja instalacji w zwykłym Safari – tło jak w powitaniu, ale da się przewinąć na małych ekranach */
+.install-guide {
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.install-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 360px;
+  /* margin: auto centruje w pionie, a przy braku miejsca nie ucina góry jak justify-content: center */
+  margin: auto 0;
+}
+
+.install-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  margin: 8px 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--card);
+  list-style: none;
+  text-align: left;
+  animation: rise-in 0.6s 0.7s ease-out both;
+}
+
+.install-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.install-steps small {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.step-number {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.inline-icon {
+  width: 20px;
+  height: 20px;
+  margin-left: 2px;
+  vertical-align: -4px;
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.install-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  animation: rise-in 0.6s 1s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .install-steps,
+  .install-note {
+    animation: none;
+  }
+}
+
+.install-guide .welcome-title {
+  font-size: 28px;
+}

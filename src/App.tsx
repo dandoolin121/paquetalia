@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { DevTools } from './DevTools'
+import { InstallGuide } from './InstallGuide'
 import type { ParcelDraft, ParcelStatus } from './parcel'
 import { ParcelDetails } from './ParcelDetails'
 import { ParcelForm } from './ParcelForm'
 import { DeliveredList, InTransitList } from './ParcelLists'
 import { loadWelcomed, saveWelcomed } from './storage'
+import { isIos, isStandalone } from './platform'
 import { useParcels } from './useParcels'
 import { Welcome } from './Welcome'
 
@@ -20,6 +22,8 @@ function App() {
   const [tab, setTab] = useState<ParcelStatus>('in_transit')
   const [screen, setScreen] = useState<Screen>({ name: 'list' })
   const [welcomed, setWelcomed] = useState(loadWelcomed)
+  // Na iPhonie w zwykłym Safari zamiast apki instrukcja instalacji – przy `npm run dev` pomijana, podgląd z panelu DEV
+  const [installGuide, setInstallGuide] = useState(() => !import.meta.env.DEV && isIos() && !isStandalone())
   const today = new Date()
   const inTransitCount = parcels.filter((p) => p.status === 'in_transit').length
   // Szczegóły zostają pod spodem także podczas edycji, żeby po zamknięciu formularza nie wjeżdżały od nowa
@@ -62,6 +66,10 @@ function App() {
     showList()
   }
 
+  if (installGuide) {
+    return <InstallGuide onClose={import.meta.env.DEV ? () => setInstallGuide(false) : undefined} />
+  }
+
   return (
     <main className="app">
       <header className="app-header">
@@ -92,7 +100,13 @@ function App() {
         <DeliveredList parcels={parcels} today={today} onOpen={openDetails} />
       )}
 
-      {import.meta.env.DEV && <DevTools {...parcelsApi} onShowWelcome={() => setWelcomed(false)} />}
+      {import.meta.env.DEV && (
+        <DevTools
+          {...parcelsApi}
+          onShowWelcome={() => setWelcomed(false)}
+          onShowInstallGuide={() => setInstallGuide(true)}
+        />
+      )}
 
       <button
         type="button"
