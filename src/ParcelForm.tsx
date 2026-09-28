@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { CARRIER_NAMES } from './carrier'
 import type { ParcelDraft } from './parcel'
 
 interface Props {
@@ -8,7 +9,8 @@ interface Props {
   onCancel: () => void
 }
 
-type Fields = Record<keyof ParcelDraft, string>
+type TextField = Exclude<keyof ParcelDraft, 'toLocker'>
+type Fields = Record<TextField, string> & { toLocker: boolean }
 
 function toFields(draft?: ParcelDraft): Fields {
   return {
@@ -18,6 +20,8 @@ function toFields(draft?: ParcelDraft): Fields {
     expectedFrom: draft?.expectedFrom ?? '',
     expectedTo: draft?.expectedTo ?? '',
     note: draft?.note ?? '',
+    carrier: draft?.carrier ?? '',
+    toLocker: draft?.toLocker ?? false,
   }
 }
 
@@ -39,6 +43,9 @@ function toDraft(fields: Fields): ParcelDraft {
     // „do” ma sens tylko jako koniec przedziału
     expectedTo: expectedFrom && expectedTo !== expectedFrom ? expectedTo : undefined,
     note: optional(fields.note),
+    carrier: optional(fields.carrier),
+    // Odznaczony przełącznik zapisujemy jako brak pola, tak jak w paczkach sprzed tej wersji
+    toLocker: fields.toLocker || undefined,
   }
 }
 
@@ -73,7 +80,7 @@ function DateInput({ label, placeholder, value, min, disabled, onChange }: DateI
 export function ParcelForm({ title, initial, onSave, onCancel }: Props) {
   const [fields, setFields] = useState(() => toFields(initial))
 
-  function update(name: keyof Fields, value: string) {
+  function update(name: TextField, value: string) {
     setFields((prev) => ({ ...prev, [name]: value }))
   }
 
@@ -130,6 +137,25 @@ export function ParcelForm({ title, initial, onSave, onCancel }: Props) {
               autoCapitalize="none"
               autoCorrect="off"
               spellCheck={false}
+            />
+          </label>
+          <label className="field">
+            <span className="field-label">Dostawca</span>
+            <select value={fields.carrier} onChange={(e) => update('carrier', e.target.value)}>
+              <option value="">Nie wybrano</option>
+              {CARRIER_NAMES.map((name) => (
+                <option key={name}>{name}</option>
+              ))}
+            </select>
+          </label>
+          <label className="field field-switch">
+            <span>Do paczkomatu</span>
+            <input
+              type="checkbox"
+              role="switch"
+              className="switch"
+              checked={fields.toLocker}
+              onChange={(e) => setFields((prev) => ({ ...prev, toLocker: e.target.checked }))}
             />
           </label>
         </div>

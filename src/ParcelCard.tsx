@@ -1,4 +1,3 @@
-import { carrierFromUrl } from './carrier'
 import type { Parcel } from './parcel'
 
 interface Props {
@@ -9,7 +8,9 @@ interface Props {
 }
 
 export function ParcelCard({ parcel, dateLabel, overdue = false, onClick }: Props) {
-  const meta = [parcel.source, carrierFromUrl(parcel.trackingUrl)].filter(Boolean).join(' · ')
+  const meta = [parcel.source, parcel.carrier, parcel.toLocker && 'paczkomat']
+    .filter(Boolean)
+    .join(' · ')
 
   return (
     <button type="button" className="card" onClick={onClick}>

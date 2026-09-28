@@ -1,4 +1,3 @@
-import { carrierFromUrl } from './carrier'
 import { formatDay, formatExpected, toIsoDate } from './dates'
 import { isOverdue } from './grouping'
 import type { Parcel, ParcelStatus } from './parcel'
@@ -14,7 +13,6 @@ interface Props {
 
 export function ParcelDetails({ parcel, today, onBack, onEdit, onSetStatus, onDelete }: Props) {
   const expected = formatExpected(parcel.expectedFrom, parcel.expectedTo, today)
-  const carrier = carrierFromUrl(parcel.trackingUrl)
   // Link bez http(s) przeglądarka potraktowałaby jako adres wewnątrz apki
   const trackingHref = parcel.trackingUrl?.match(/^https?:\/\//) ? parcel.trackingUrl : undefined
   const delivered = parcel.status === 'delivered'
@@ -56,10 +54,16 @@ export function ParcelDetails({ parcel, today, onBack, onEdit, onSetStatus, onDe
               <dd className={isOverdue(parcel, today) ? 'overdue' : undefined}>{expected}</dd>
             </div>
           )}
-          {carrier && (
+          {parcel.carrier && (
             <div className="info-row">
-              <dt>Przewoźnik</dt>
-              <dd>{carrier}</dd>
+              <dt>Dostawca</dt>
+              <dd>{parcel.carrier}</dd>
+            </div>
+          )}
+          {parcel.toLocker && (
+            <div className="info-row">
+              <dt>Odbiór</dt>
+              <dd>Paczkomat</dd>
             </div>
           )}
         </dl>

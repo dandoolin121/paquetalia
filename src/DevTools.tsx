@@ -16,6 +16,8 @@ function sampleParcels(): (ParcelDraft & { delivered?: boolean })[] {
       trackingUrl: 'https://inpost.pl/sledzenie-przesylek?number=520000012345678901234567',
       expectedFrom: inDays(0),
       note: 'rozmiar 38',
+      carrier: 'InPost',
+      toLocker: true,
     },
     {
       contents: 'Krem do rąk i szampon',
@@ -23,6 +25,7 @@ function sampleParcels(): (ParcelDraft & { delivered?: boolean })[] {
       trackingUrl: 'https://tracktrace.dpd.com.pl/parcelDetails?p1=1000123456789U',
       expectedFrom: inDays(1),
       expectedTo: inDays(3),
+      carrier: 'DPD',
     },
     {
       contents: 'Etui na telefon',

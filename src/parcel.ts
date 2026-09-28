@@ -11,6 +11,10 @@ export interface Parcel {
   expectedFrom?: string
   expectedTo?: string
   note?: string
+  /** Dostawca wybrany ręcznie – starsze paczki go nie mają, wtedy rozpoznajemy go z linku */
+  carrier?: string
+  /** Odbiór w paczkomacie; brak pola = nie zaznaczono */
+  toLocker?: boolean
   status: ParcelStatus
   createdAt: string
   deliveredAt?: string
@@ -19,7 +23,7 @@ export interface Parcel {
 /** Pola wypełniane w formularzu */
 export type ParcelDraft = Pick<
   Parcel,
-  'contents' | 'source' | 'trackingUrl' | 'expectedFrom' | 'expectedTo' | 'note'
+  'contents' | 'source' | 'trackingUrl' | 'expectedFrom' | 'expectedTo' | 'note' | 'carrier' | 'toLocker'
 >
 
 export function newId(): string {
